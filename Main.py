@@ -1,10 +1,7 @@
-from Strategies.BollingerBands import BollingerBands
+from Server.server import Server
 from Data.Binance import Binance
 
-b = Binance("LTCBTC")
+b = Binance("BNBBTC")
+s = Server(b, 0, 1)
 
-bollinger_bands = BollingerBands()
-
-bollinger_bands.train_strategy(b.get_train_data())
-
-bollinger_bands.plot_data()
+s.run(10000, 1)
