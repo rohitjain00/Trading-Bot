@@ -1,5 +1,7 @@
 class trade():
     def __init__(self, stock, balance):
+        self.initial_stock = stock
+        self.initial_balance = balance
         self.stock = stock
         self.balance = balance
         self.history = []
@@ -28,3 +30,10 @@ class trade():
     def get_history(self):
         return self.history
 
+    def get_backtesting_result(self, price_at_end):
+        print("------------------------------")
+        print("Initially Stock : ", self.initial_stock, " Initial Balance : ", self.initial_balance)
+        print("At end Stocks : ", self.stock)
+        print("Worth : ", (self.stock*price_at_end))
+        print("Total Worth of assets : ", (self.balance + (self.stock * price_at_end)))
+        print("------------------------------")

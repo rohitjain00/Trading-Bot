@@ -1,10 +1,9 @@
 import time
 from Strategies.BollingerBands import BollingerBands
-from Data.Binance import Binance
 from Server.trade import trade
 
 
-class Server():
+class Server:
     STOCK_QTY = 10
 
     def __init__(self, strategy, stock, balance):
@@ -14,11 +13,13 @@ class Server():
 
     def run(self, time_to_repeat, delay_in_seconds):
         self.__one_time_action()
+        # self.bollinger_bands.plot_data()
         while time_to_repeat > 0:
             time.sleep(delay_in_seconds)
             time_to_repeat -= 1
             self.__repeat_action()
-
+        # self.bollinger_bands.plot_data()
+        self.trade.get_backtesting_result(self.bollinger_bands.price_at_end())
         print(self.trade.get_history())
 
     def __one_time_action(self):
@@ -33,3 +34,5 @@ class Server():
                 self.trade.sell(price_per_stock, self.STOCK_QTY)
         stock, balance = self.trade.get_curr_statistics()
         print("stock : ", stock, " balance : ", balance)
+        # self.bollinger_bands.plot_data()
+

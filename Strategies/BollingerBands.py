@@ -48,8 +48,11 @@ class BollingerBands(Strategy):
             return True, "sell", (last_row['Open'] + last_row['Close']) / 2
         if last_row['Low'] <= last_row['Lower Band']:
             return True, "buy", (last_row['Open'] + last_row['Close']) / 2
-
         return False, "", 0
 
     def data_len(self):
         return self.data.shape
+
+    def price_at_end(self):
+        last_row = self.data.iloc[-1]
+        return (last_row['Open'] + last_row['Close']) / 2
