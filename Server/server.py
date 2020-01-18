@@ -31,4 +31,5 @@ class Server():
                 self.trade.buy(price_per_stock, self.STOCK_QTY)
             else:
                 self.trade.sell(price_per_stock, self.STOCK_QTY)
-        print(self.trade.get_curr_statistics())
+        stock, balance = self.trade.get_curr_statistics()
+        print("stock : ", stock, " balance : ", balance)
