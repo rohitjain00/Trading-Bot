@@ -6,10 +6,11 @@ from Server.trade import trade
 class Server:
     STOCK_QTY = 10
 
-    def __init__(self, strategy, stock, balance):
+    def __init__(self, strategy, stock, balance, after_trade):
         self.strategy = strategy
         self.bollinger_bands = BollingerBands()
         self.trade = trade(stock, balance=balance)
+        self.after_trade = after_trade
 
     def run(self, time_to_repeat, delay_in_seconds):
         self.__one_time_action()
@@ -18,8 +19,14 @@ class Server:
             time.sleep(delay_in_seconds)
             time_to_repeat -= 1
             self.__repeat_action()
+            if time_to_repeat % self.after_trade == 0:
+                self.trade.insert_total_assets_for_hit_ration(self.bollinger_bands.price_at_end())
         # self.bollinger_bands.plot_data()
-        self.trade.get_backtesting_result(self.bollinger_bands.price_at_end())
+        print('--------------------')
+        print(self.trade.get_backtesting_result(self.bollinger_bands.price_at_end()))
+        print('--------------------')
+        print(self.trade.get_hit_ratio())
+        print('--------------------')
         print(self.trade.get_history())
 
     def __one_time_action(self):
