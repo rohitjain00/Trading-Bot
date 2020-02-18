@@ -11,6 +11,7 @@ Classes Distribution of the project for ease in understanding
 
 ![class diagram](https://github.com/rohitjain00/Trading-Bot/blob/master/Trading-botdrawio.png)
 
+[Here](https://github.com/rohitjain00/Trading-Bot/blob/master/BackTesting%20Result.pdf) is how the project looks while running
 
 ## Instructions to setup project enviroment
 
