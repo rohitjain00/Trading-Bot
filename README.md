@@ -7,3 +7,29 @@ A Bollinger bands is a technical analysis tool defined by two bands which are si
 Classes Distribution of the project for ease in understanding
 
 ![class diagram](https://github.com/rohitjain00/Trading-Bot/blob/master/Trading-botdrawio.png)
+
+
+## Instructions to setup project enviroment
+
+#### Installing Virtual enviroment
+`pip install virtualenv`
+
+Test your installation:
+
+`virtualenv --version`
+
+#### Create new virtual enviroment
+(Execute all the commands rom the root folder)
+
+`virtualenv venv`
+
+#### Activate virtual enviroment
+`source venv/bin/activate`
+
+#### Install requirements
+`pip install -r requirements.txt`
+
+## Starting the project
+
+1. In the [Main.py](https://github.com/rohitjain00/Trading-Bot/blob/master/Main.py) adjust the parameters needed to trade.
+2. Run the Main.py file.
