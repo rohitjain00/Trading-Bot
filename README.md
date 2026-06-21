@@ -37,3 +37,12 @@ Test your installation:
 
 1. In the [Main.py](https://github.com/rohitjain00/Trading-Bot/blob/master/Main.py) adjust the parameters needed to trade.
 2. Run the Main.py file.
+
+## Running with Docker
+
+This project is fully Dockerized! To run the application locally without dealing with system dependencies, simply ensure you have Docker and Docker Compose installed and run:
+
+`ash
+docker-compose up --build
+`
+This will automatically build the containers, install all necessary dependencies, and spin up the environment.
