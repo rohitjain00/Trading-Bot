@@ -1,0 +1,15 @@
+# IDE
+.idea/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Python bytecode
+__pycache__/
+*.pyc
+
+# Generated reports
+/*.pdf
+
+# Virtual environments
+venv/
