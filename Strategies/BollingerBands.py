@@ -4,20 +4,26 @@ import matplotlib.pyplot as plt
 
 
 class BollingerBands(Strategy):
+    def __init__(self):
+        # Live feed runs on a different timeframe (1m) than the training data
+        # (1h). They are kept in separate frames; bands for signals come only
+        # from this rolling window of minute bars.
+        self.live_data = None
+
     def strategy(self):
         print("Bollinger Bands")
 
-    def __add_signal(self):
-        self.data = self.data.apply(pd.to_numeric)
-        self.data['Typical Price'] = ((self.data['High']) + (self.data['Low']) + (self.data['Close'])) / 3
-        self.data['Moving Average'] = self.data['Typical Price'].rolling(window=20).mean()
-        self.data['std'] = self.data['Typical Price'].rolling(window=20).std()
-        self.data['Upper Band'] = self.data['Moving Average'] + (self.data['std'] * 2)
-        self.data['Lower Band'] = self.data['Moving Average'] - (self.data['std'] * 2)
+    def __add_signal(self, data):
+        data = data.apply(pd.to_numeric)
+        data['Typical Price'] = ((data['High']) + (data['Low']) + (data['Close'])) / 3
+        data['Moving Average'] = data['Typical Price'].rolling(window=20).mean()
+        data['std'] = data['Typical Price'].rolling(window=20).std()
+        data['Upper Band'] = data['Moving Average'] + (data['std'] * 2)
+        data['Lower Band'] = data['Moving Average'] - (data['std'] * 2)
+        return data
 
     def train_strategy(self, data):
-        self.data = data.copy()
-        self.__add_signal()
+        self.data = self.__add_signal(data.copy())
 
     def plot_data(self):
         plt.style.use('fivethirtyeight')
@@ -38,12 +44,18 @@ class BollingerBands(Strategy):
         plt.show()
 
     def add_new_data(self, data):
-        self.data = pd.concat([self.data, data], sort=False)
-        self.__add_signal()
+        # Bands are computed on minute bars only once 20 of them exist; the
+        # first 19 live ticks yield no signal (rolling stats are NaN).
+        # Seeding from the hourly training data would mix timeframes.
+        if self.live_data is None:
+            self.live_data = data.copy()
+        else:
+            self.live_data = pd.concat([self.live_data, data], sort=False)
+        self.live_data = self.__add_signal(self.live_data.tail(20))
         return self.__generate_signal()
 
     def __generate_signal(self):
-        last_row = self.data.iloc[-1]
+        last_row = self.live_data.iloc[-1]
         if last_row['High'] >= last_row['Upper Band']:
             return True, "sell", (last_row['Open'] + last_row['Close']) / 2
         if last_row['Low'] <= last_row['Lower Band']:
@@ -54,5 +66,5 @@ class BollingerBands(Strategy):
         return self.data.shape
 
     def price_at_end(self):
-        last_row = self.data.iloc[-1]
+        last_row = self.live_data.iloc[-1]
         return (last_row['Open'] + last_row['Close']) / 2
