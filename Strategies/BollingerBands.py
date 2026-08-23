@@ -38,7 +38,7 @@ class BollingerBands(Strategy):
         plt.show()
 
     def add_new_data(self, data):
-        self.data = self.data.append(data, sort=False)
+        self.data = pd.concat([self.data, data], sort=False)
         self.__add_signal()
         return self.__generate_signal()
 
