@@ -1,6 +1,11 @@
 # Trading-Bot
 Trading bot for an Internship program
 
+> ## ⚠️ WARNING — Research / Paper-Trading Only
+> This bot is an educational prototype. It has **NO stop-loss**, **no position-sizing caps**
+> (it always trades a fixed `STOCK_QTY = 10`), and no other risk controls.
+> Never point it at real funds without adding proper risk management first.
+
 ## Bianance API
 [Here](https://github.com/binance-exchange/binance-official-api-docs/blob/master/rest-api.md) is the API of Binance as used in the above project.
 
